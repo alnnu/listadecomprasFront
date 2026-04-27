@@ -1,15 +1,11 @@
 "use client"
-import { useState } from "react"
+import { useTab } from "@/context/tabContext"
 import { Button } from "../ui/button"
 import { DynamicIcon } from "lucide-react/dynamic"
+import { Tab, TabButtons } from "@/types/navTypes"
 
 export default function Footer() {
-  const buttons: {
-    label: string
-    name: string
-    icon: any
-    link: string
-  }[] = [
+  const buttons: TabButtons = [
     {
       label: "minhalista",
       name: "Minha Lista",
@@ -17,17 +13,17 @@ export default function Footer() {
       link: "teste",
     },
     {
-      label: "Todaslistas",
+      label: "todaslistas",
       name: "Todas as listas",
       icon: "list-checks",
       link: "teste",
     },
   ]
 
-  const [select, setSelect] = useState("minhalista")
+  const { activeTab, setActiveTab } = useTab()
 
-  const handlerClick = (label: string) => {
-    setSelect(label)
+  const handlerClick = (label: Tab) => {
+    setActiveTab(label)
   }
   return (
     <footer className="fixed bottom-0 z-50 w-full border-t-2 px-[35%] py-3">
@@ -40,7 +36,7 @@ export default function Footer() {
             onClick={() => handlerClick(iten.label)}
           >
             <div
-              className={`flex flex-col items-center justify-center ${select === iten.label ? "text-primary" : ""}`}
+              className={`flex flex-col items-center justify-center ${activeTab === iten.label ? "text-primary" : ""}`}
             >
               <DynamicIcon
                 name={iten.icon}
