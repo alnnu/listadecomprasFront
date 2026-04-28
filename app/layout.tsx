@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import Footer from "@/components/nav/footer"
 import { TabProvider } from "@/context/tabContext"
+import Header from "@/components/nav/header"
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <TabProvider>
+            <Header />
             {children}
             <Footer />
           </TabProvider>
