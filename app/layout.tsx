@@ -34,7 +34,7 @@ export default function RootLayout({
         <ThemeProvider>
           <TabProvider>
             <Header />
-            {children}
+            <main className="mx-[35%] my-24">{children}</main>
             <Footer />
           </TabProvider>
         </ThemeProvider>
