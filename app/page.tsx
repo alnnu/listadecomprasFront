@@ -1,35 +1,40 @@
-import { Button } from "@/components/ui/button"
+"use client"
+import MinhaLista from "@/components/minhaLista/minhaLista"
+import { useTab } from "@/context/tabContext"
+import { list } from "@/types/listTypes"
+import { getActiveList } from "@/utils/axios/requests/ListRequests"
+import { useEffect, useState } from "react"
 
 export default function Page() {
-  return (
-    <>
-      <div className="flex min-h-svh">
-        <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-          <div>
-            <h1 className="font-medium">Project ready!</h1>
-            <p>You may now add components and start building.</p>
-            <p>We&apos;ve already added the button component for you.</p>
-            <Button className="mt-2">Button</Button>
-          </div>
-          <div className="font-mono text-xs text-muted-foreground">
-            (Press <kbd>d</kbd> to toggle dark mode)
-          </div>
-        </div>
-      </div>
+  useEffect(() => {
+    HandleGetActiveList()
+  })
+  const [activeList, setActiveList] = useState<list | null>(null)
+  const { activeTab } = useTab()
 
-      <div className="flex min-h-svh">
-        <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-          <div>
-            <h1 className="font-medium">Project ready!</h1>
-            <p>You may now add components and start building.</p>
-            <p>We&apos;ve already added the button component for you.</p>
-            <Button className="mt-2">Button</Button>
-          </div>
-          <div className="font-mono text-xs text-muted-foreground">
-            (Press <kbd>d</kbd> to toggle dark mode)
-          </div>
-        </div>
-      </div>
-    </>
+  function HandleGetActiveList() {
+    getActiveList()
+      .then((res) => {
+        if (res.status == 200) {
+          setActiveList(res.data)
+        } else if (res.status == 404) {
+          setActiveList(null)
+        } else {
+          console.error(
+            "Houve um erro " + res.status + " com log -> " + res.data
+          )
+          setActiveList(null)
+        }
+      })
+      .catch((e) => {
+        console.log(e)
+        setActiveList(null)
+      })
+  }
+  return (
+    <div>
+      {activeTab == "minhalista" && <MinhaLista list={activeList} />}
+      {activeTab == "todaslistas" && <>xmmxmxmm</>}
+    </div>
   )
 }
