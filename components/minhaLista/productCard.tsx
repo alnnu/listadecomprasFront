@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { removeProductFromList } from "@/utils/axios/requests/ListRequests"
 
 interface ProductCardProps {
   product: product
@@ -11,7 +12,11 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, finished }: ProductCardProps) {
-  console.log(product.icon)
+  function handlerRemove() {
+    removeProductFromList([product.id]).catch((e) => {
+      console.error(e)
+    })
+  }
   return (
     <Card
       className={cn(
@@ -42,6 +47,7 @@ export default function ProductCard({ product, finished }: ProductCardProps) {
         size="icon"
         className="shrink-0 text-muted-foreground hover:text-destructive"
         aria-label={`Remover ${product.name}`}
+        onClick={handlerRemove}
       >
         <Trash2 className="h-4 w-4" />
       </Button>

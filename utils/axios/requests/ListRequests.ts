@@ -10,15 +10,15 @@ export const getActiveList = () => {
   return axiosInstance.get("/list/active")
 }
 
-export const deactivateList = (id: number) => {
+export const deactivateList = (id: Number) => {
   return axiosInstance.put(`/list/${id}/deactivate`)
 }
 
-export const addProductToList = (ids: number[]) => {
+export const addProductToList = (ids: Number[]) => {
   return axiosInstance.put("/list/add/product", { ids })
 }
 
-export const removeProductFromList = (ids: number[]) => {
+export const removeProductFromList = (ids: Number[]) => {
   return axiosInstance.put<list>("/list/remove/product", {
     ids,
   })
