@@ -110,7 +110,7 @@ export default function Page() {
       {activeTab == "minhalista" && (
         <MinhaLista
           list={activeList}
-          HandleDeactivadeList={() => HandleDeactivadeList(activeList?.id)}
+          HandleDeactivadeList={HandleDeactivadeList}
         />
       )}
       {activeTab == "todaslistas" && <>xmmxmxmm</>}
