@@ -1,7 +1,26 @@
+"use client"
+import { useState } from "react"
 import { list } from "@/types/listTypes"
 import ProductCard from "./productCard"
+import { Button } from "../ui/button"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
-export default function MinhaLista({ list }: { list: list | null }) {
+export default function MinhaLista({
+  list,
+  HandleDeactivadeList,
+}: {
+  list: list | null
+  HandleDeactivadeList: any
+}) {
+  const [dialogOpen, setDialogOpen] = useState(false)
   const createdAt = list
     ? new Date(list.createdAt).toLocaleDateString("pt-BR", {
         day: "numeric",
@@ -13,6 +32,29 @@ export default function MinhaLista({ list }: { list: list | null }) {
     <div>
       {list && (
         <div>
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogContent className="sm:max-w-sm">
+              <DialogHeader>
+                <DialogTitle>Finalizar lista</DialogTitle>
+                <DialogDescription>
+                  Deseja finalizar esta lista de compra?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="outline">Continuar com a lista</Button>
+                </DialogClose>
+                <Button
+                  type="submit"
+                  onClick={() =>
+                    HandleDeactivadeList(list.id) || setDialogOpen(false)
+                  }
+                >
+                  Finalizar lista
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
           {list.products.length > 0 && (
             <>
               <h2 className="mb-2 pt-5 text-lg font-semibold text-foreground">
@@ -21,6 +63,13 @@ export default function MinhaLista({ list }: { list: list | null }) {
               {list.products.map((product, id) => (
                 <ProductCard product={product} finished={false} key={id} />
               ))}
+              <Button
+                variant="destructive"
+                className="mb-3 w-full rounded-xl px-4 py-8 transition-colors hover:bg-muted/50"
+                onClick={() => setDialogOpen(true)}
+              >
+                Finalizar Lista
+              </Button>
             </>
           )}
           {list.products.length <= 0 && (

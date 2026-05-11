@@ -36,9 +36,10 @@ export default function Page() {
 
   useEffect(() => {
     HandleGetActiveList()
+    console.log(1)
   }, [])
 
-  function HandleGetActiveList() {
+  const HandleGetActiveList = () => {
     getActiveList()
       .then((res) => {
         if (res.status == 200) {
@@ -61,7 +62,7 @@ export default function Page() {
       })
   }
 
-  function HandleDeactivadeList(id: number) {
+  const HandleDeactivadeList = (id: number) => {
     deactivateList(id)
       .then((res) => {
         if (res.status == 200) {
@@ -106,7 +107,12 @@ export default function Page() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-      {activeTab == "minhalista" && <MinhaLista list={activeList} />}
+      {activeTab == "minhalista" && (
+        <MinhaLista
+          list={activeList}
+          HandleDeactivadeList={() => HandleDeactivadeList(activeList?.id)}
+        />
+      )}
       {activeTab == "todaslistas" && <>xmmxmxmm</>}
     </div>
   )
