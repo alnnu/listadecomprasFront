@@ -36,7 +36,6 @@ export default function Page() {
 
   useEffect(() => {
     HandleGetActiveList()
-    console.log(1)
   }, [])
 
   const HandleGetActiveList = () => {
