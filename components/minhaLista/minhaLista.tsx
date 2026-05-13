@@ -12,6 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import AddProductButton from "./addProductButon"
 
 export default function MinhaLista({
   list,
@@ -30,6 +31,7 @@ export default function MinhaLista({
 
   return (
     <div>
+      <AddProductButton />
       {list && (
         <div>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
