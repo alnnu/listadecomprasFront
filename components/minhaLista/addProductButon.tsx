@@ -17,10 +17,12 @@ import { Input } from "@/components/ui/input"
 import { product } from "@/types/productTypes"
 import { getAllProduct } from "@/utils/axios/requests/ProductRequest"
 import AddProductCard from "./addProductCard"
+import { addProductToList } from "@/utils/axios/requests/ListRequests"
 
 export default function AddProductButton() {
   const [products, setProducts] = useState<product[]>()
   const [search, setSearch] = useState("")
+  const [ProductsIds, setProductsIds] = useState<any[]>([])
 
   useEffect(() => {
     getProducts()
@@ -41,6 +43,23 @@ export default function AddProductButton() {
         console.log(e)
       })
   }
+
+  const handleProductCardClick = (productId: number) => {
+    setProductsIds((prev) =>
+      prev.includes(productId)
+        ? prev.filter((id) => id !== productId)
+        : [...prev, productId]
+    )
+  }
+
+  const AddProduct = () => {
+    addProductToList(ProductsIds).then((res) => {
+      if (res.status == 200) {
+        window.location.reload()
+      }
+    })
+  }
+
   return (
     <Dialog>
       <form>
@@ -71,7 +90,11 @@ export default function AddProductButton() {
                 {product.name
                   .toLocaleLowerCase()
                   .includes(search.toLocaleLowerCase()) ? (
-                  <AddProductCard product={product} />
+                  <AddProductCard
+                    product={product}
+                    selected={ProductsIds.includes(product.id)}
+                    handleClick={handleProductCardClick}
+                  />
                 ) : (
                   <></>
                 )}
@@ -83,7 +106,9 @@ export default function AddProductButton() {
               <Button variant="outline">fechar</Button>
             </DialogClose>
 
-            <Button type="submit">Save changes</Button>
+            <Button type="submit" onClick={() => AddProduct()}>
+              Save changes
+            </Button>
           </DialogFooter>
         </DialogContent>
       </form>
